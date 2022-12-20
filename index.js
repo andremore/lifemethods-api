@@ -12,6 +12,10 @@ require('dotenv').config()
 
 const port = process.env.API_PORT || 3000
 
+app.get('/', (req, res) => {
+  res.sendStatus(200)
+})
+
 app.use('/', [expensesRoutes])
 
 app.listen(port, () => {
