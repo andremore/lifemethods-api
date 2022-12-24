@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 
 const expensesRoutes = require('./src/routes/expenses')
+const categoriesRoutes = require('./src/routes/categories')
 
 app.use(cors())
 app.use(express.json())
@@ -16,7 +17,7 @@ app.get('/', (req, res) => {
   res.sendStatus(200)
 })
 
-app.use('/', [expensesRoutes])
+app.use('/', [expensesRoutes, categoriesRoutes])
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`)

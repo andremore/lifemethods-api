@@ -13,14 +13,14 @@ module.exports = (() => {
 				const expensesData = await prisma.expense.findMany()
 				const categoriesData = await prisma.category.findMany()
 
-				let expenses = expensesData.map(expense => {
+				const expenses = expensesData.map(expense => {
 					const category = categoriesData.find(category => category.id === expense.categoryId)
 					return {
 						...expense,
 						category
 					}
 				})
-				res.json(expenses)
+				res.status(200).json(expenses)
 			} catch (e) {
 				console.error(e)
 				res.status(500).json({ error: e })
@@ -41,7 +41,7 @@ module.exports = (() => {
 					amount
 				}
 			})
-			res.json(newExpense)
+			res.status(201).json(newExpense)
 		})
 		.put(async (req, res) => {
 			let expense = req.body
@@ -57,25 +57,13 @@ module.exports = (() => {
 				data: expense
 			})
 
-			res.json(updatedExpense)
+			res.status(200).json(updatedExpense)
 		})
 		.delete(async (req, res) => {
 			const { id } = req.body
 			const deletedExpense = await prisma.expense.delete({ where: { id: parseInt(id) } })
 
-			res.json(deletedExpense)
-		})
-
-
-	route.route('/categories')
-		.get(async (req, res) => {
-			try {
-				const categories = await prisma.category.findMany()
-				res.json(categories)
-			} catch (e) {
-				console.error(e)
-				res.status(500).json({ error: e })
-			}
+			res.status(200).json(deletedExpense)
 		})
 
 	return route
